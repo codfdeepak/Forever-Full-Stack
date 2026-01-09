@@ -1,30 +1,43 @@
-import React from 'react'
-import { assets } from '../assets/assets'
+import React from "react";
+import { assets } from "../assets/assets";
 
 const OurPolicy = () => {
+  const policies = [
+    {
+      icon: assets.exchange_icon,
+      title: "Easy Exchange Policy",
+      desc: "Hassle-free exchange for your convenience",
+    },
+    {
+      icon: assets.quality_icon,
+      title: "7 Days Return Policy",
+      desc: "Enjoy 7 days free return policy",
+    },
+    {
+      icon: assets.support_img,
+      title: "Best Customer Support",
+      desc: "24/7 dedicated customer support",
+    },
+  ];
+
   return (
-    <div className='flex flex-col sm:flex-row justify-around gap-12 sm:gap-2 text-center py-20 text-xs sm:text-sm md:text-base text-gray-700 '>
-      
-      <div>
-        <img src={assets.exchange_icon} alt="" className='w-12 m-auto mb-5' />
-        <p className='font-semibold '>Easy Exchange Policy</p>
-        <p className='text-gray-400 '>we offer hassle free exchange policy</p>
-
+    <section className="py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 flex flex-col sm:flex-row justify-around gap-10 text-center">
+        {policies.map((policy, index) => (
+          <div
+            key={index}
+            className="flex flex-col items-center gap-4 p-6 bg-white rounded-lg shadow hover:shadow-lg transition-shadow duration-300"
+          >
+            <img src={policy.icon} alt={policy.title} className="w-14 h-14" />
+            <p className="font-semibold text-lg text-gray-800">
+              {policy.title}
+            </p>
+            <p className="text-gray-500 text-sm md:text-base">{policy.desc}</p>
+          </div>
+        ))}
       </div>
-      <div>
-        <img src={assets.quality_icon} alt="" className='w-12 m-auto mb-5' />
-        <p className='font-semibold '> 7 Days Return Policy</p>
-        <p className='text-gray-400 '>we provide 7 days free return policy</p>
+    </section>
+  );
+};
 
-      </div>
-      <div>
-        <img src={assets.support_img} alt="" className='w-12 m-auto mb-5' />
-        <p className='font-semibold '>Best Customer Support </p>
-        <p className='text-gray-400 '>we provide 24/7 customer support</p>
-
-      </div>
-    </div>
-  )
-}
-
-export default OurPolicy
+export default OurPolicy;

@@ -4,71 +4,78 @@ import { assets } from "../assets/assets";
 import NewsletterBox from "../components/NewsletterBox";
 
 const About = () => {
+  const features = [
+    {
+      title: "Quality Assurance",
+      desc: "We ensure that every product meets the highest quality standards, from material selection to final packaging, so you can shop with confidence.",
+    },
+    {
+      title: "Convenience",
+      desc: "Our platform offers a seamless shopping experience with easy navigation, multiple payment options, and hassle-free delivery to your doorstep.",
+    },
+    {
+      title: "Exceptional Customer Service",
+      desc: "Our dedicated support team is available 24/7 to answer your queries, resolve issues, and ensure that your shopping experience is smooth and satisfying.",
+    },
+  ];
+
   return (
-    <div>
-      <div className="text-2xl text-center pt-8 border-t">
-        <Title text1={"ABOUT"} text2={"US"} />
+    <div className="pt-28 px-4 sm:px-12 lg:px-24">
+      {/* Page Header */}
+      <div className="text-center border-t pt-8">
+        <Title text1="ABOUT" text2="US" />
       </div>
-      <div className="my-10 flex flex-col md:flex-row gap-16">
+
+      {/* About Content */}
+      <div className="my-16 flex flex-col md:flex-row gap-12 items-center">
         <img
-          className="w-full md:max-w-[450px]"
+          className="w-full md:max-w-[450px] rounded-lg shadow-lg"
           src={assets.about_img}
-          alt=""
+          alt="About Us"
         />
-        <div className=" flex flex-col justify-center gap-6 md:w-2/4 text-gray-600">
+        <div className="flex flex-col justify-center gap-6 md:w-2/4 text-gray-600">
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-            dolore suscipit praesentium ipsa quia quos labore libero aperiam
-            saepe quam architecto, rerum nisi voluptatibus corrupti eaque qui
-            aliquam sed similique.
+            At Forever, we are passionate about providing high-quality fashion
+            products that suit every style and occasion. Our commitment is to
+            deliver exceptional value and trendy designs to our customers.
           </p>
           <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-            Voluptatibus et beatae quae quidem perferendis quis nihil,
-            recusandae quam soluta libero.
+            With years of experience in the fashion industry, we ensure that
+            each item in our collection is crafted with care, durability, and
+            style in mind.
           </p>
-          <b className="text-gray-800">Our Mission</b>
+          <b className="text-gray-800 text-lg">Our Mission</b>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus
-            explicabo mollitia reprehenderit alias cupiditate laboriosam
-            ducimus? Nulla inventore enim fugiat, praesentium veniam aliquam
-            soluta possimus, rerum magni aspernatur animi corporis libero.
-            Doloribus laborum dolorum ipsa minus exercitationem omnis deserunt
-            quisquam.
+            Our mission is to empower individuals to express themselves through
+            fashion. We aim to offer products that combine comfort, quality, and
+            style, making shopping an enjoyable and inspiring experience.
           </p>
         </div>
       </div>
-      <div className="text-xl py-4">
-        <Title text1={"WHY"} text2={"CHOOSE US"} />
+
+      {/* Why Choose Us */}
+      <div className="text-center mb-12">
+        <Title text1="WHY" text2="CHOOSE US" />
       </div>
-      <div className="flex flex-col md:flex-row text-sm mb-20">
-        <div className="border px-10 md:px-16 py-8 sm:py-20 flex flex-col gap-5 ">
-          <b>Qaulity Assurance:</b>
-          <p className=" text-gray-600 ">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis
-            totam minima, quos laudantium suscipit perferendis id voluptatum
-            assumenda dolorem iste at magni delectus optio ea adipisci modi
-            nulla expedita repudiandae.
-          </p>
-        </div>
-        <div className="border px-10 md:px-16 py-8 sm:py-20 flex flex-col gap-5 ">
-          <b>Convenience :</b>
-          <p className=" text-gray-600 ">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi
-            explicabo nisi, molestiae id veritatis officia debitis facilis
-            ratione eligendi eos voluptatum perspiciatis ea accusamus nesciunt
-            sapiente enim ad quibusdam velit.
-          </p>
-        </div>
-        <div className="border px-10 md:px-16 py-8 sm:py-20 flex flex-col gap-5 ">
-          <b>Exceptional Customer Service :</b>
-          <p className=" text-gray-600 ">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis
-            saepe modi labore dignissimos accusantium veniam animi sequi atque!
-            Deleniti, officia!
-          </p>
-        </div>
+
+      {/* Features Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+        {features.map((feature, idx) => (
+          <div
+            key={idx}
+            className="border rounded-lg p-8 bg-white shadow-md hover:shadow-xl transition-shadow duration-300"
+          >
+            <h3 className="text-lg font-semibold mb-3 text-gray-800">
+              {feature.title}
+            </h3>
+            <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+              {feature.desc}
+            </p>
+          </div>
+        ))}
       </div>
+
+      {/* Newsletter */}
       <NewsletterBox />
     </div>
   );

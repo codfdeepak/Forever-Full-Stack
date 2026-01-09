@@ -1,4 +1,3 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Collection from "./pages/Collection";
@@ -17,7 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
-    <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
+    <div className="w-full m-0 p-0">
       <ToastContainer />
       <Navbar />
       <SearchBar />

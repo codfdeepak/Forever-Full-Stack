@@ -11,116 +11,143 @@ const Product = () => {
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
 
-  const fetchProductData = async () => {
-    products.map((item) => {
-      if (item._id === productId) {
-        setProductData(item);
-        setImage(item.image[0]);
-        return null;
-      }
-    });
-  };
   useEffect(() => {
-    fetchProductData();
-  }, [productId]);
+    const product = products.find((item) => item._id === productId);
+    if (product) {
+      setProductData(product);
+      setImage(product.image[0]);
+    }
+  }, [productId, products]);
 
   return productData ? (
-    <div className="border-b-2 pt-10 transition-opacity ease-in duration-100 ">
-      {/* Product  Data*/}
-      <div className="flex gap-12  sm:gap-12 flex-col sm:flex-row">
-        {/* ---------------Product image -------------------- */}
-        <div className="flex-1 flex flex-col-reverse gap-3 sm:flex-row">
-          <div className="flex flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[19.7%] w-full">
-            {productData.image.map((item, index) => (
+    <div className="pt-26 pb-12 transition-opacity ease-in duration-200">
+      {/* Product Section */}
+      <div className="flex flex-col sm:flex-row gap-8">
+        {/* Image Gallery */}
+        <div className="flex-1 flex flex-col sm:flex-row gap-4">
+          {/* Thumbnails */}
+          <div className="flex sm:flex-col overflow-x-auto sm:overflow-y-auto gap-3 sm:w-1/6">
+            {productData.image.map((img, idx) => (
               <img
-                onClick={() => setImage(item)}
-                src={item}
-                key={index}
-                alt=""
-                className="w-[24%] sm:w-full sm:mb-3  flex-shrink-0 cursor-pointer"
+                key={idx}
+                src={img}
+                alt={`thumb-${idx}`}
+                onClick={() => setImage(img)}
+                className={`cursor-pointer rounded-md border ${
+                  img === image
+                    ? "border-orange-500 shadow-lg"
+                    : "border-gray-200"
+                } transition-all`}
               />
             ))}
           </div>
-          <div className=" w-full sm:w-[80%]">
-            <img src={image} alt="" className="w-full h-auto" />
+          {/* Main Image */}
+          <div className="flex-1">
+            <img
+              src={image}
+              alt="main-product"
+              className="w-full h-[400px] md:h-[450px] rounded-md object-contain shadow-sm"
+            />
           </div>
         </div>
-        {/* ---------------Product Info------------- */}
-        <div className=" flex-1 ">
-          <h1 className="font-medium text-2xl mt-2">{productData.name}</h1>
-          <div className="flex items-center gap-1 mt-2">
-            <img src={assets.star_icon} alt="" className="w-3 5" />
-            <img src={assets.star_icon} alt="" className="w-3 5" />
-            <img src={assets.star_icon} alt="" className="w-3 5" />
-            <img src={assets.star_icon} alt="" className="w-3 5" />
-            <img src={assets.star_dull_icon} alt="" className="w-3 5" />
-            <p className="pl-2">(122)</p>
+
+        {/* Product Info */}
+        <div className="flex-1 flex flex-col gap-3">
+          <h1 className="text-2xl font-semibold text-gray-800">
+            {productData.name}
+          </h1>
+
+          {/* Rating */}
+          <div className="flex items-center gap-1">
+            {Array(5)
+              .fill(0)
+              .map((_, idx) => (
+                <img
+                  key={idx}
+                  src={idx < 4 ? assets.star_icon : assets.star_dull_icon}
+                  alt="star"
+                  className="w-4 h-4"
+                />
+              ))}
+            <span className="text-gray-500 pl-2">(122)</span>
           </div>
-          <p className="mt-5 text-3xl font-medium ">
+
+          {/* Price */}
+          <p className="text-2xl font-bold text-gray-900">
             {currency}
-            {productData.price}{" "}
-          </p>
-          <p className="mt-5 text-gray-500 md:w-4/5 ">
-            {productData.description}{" "}
+            {productData.price}
           </p>
 
-          <div className="flex flex-col gap-4 my-8">
-            <p>Select Size</p>
-            <div className="flex gap-2">
-              {productData.sizes.map((item, index) => (
+          {/* Description */}
+          <p className="text-gray-600 md:w-4/5">{productData.description}</p>
+
+          {/* Size Selection */}
+          <div className="flex flex-col gap-2 mt-4">
+            <span className="font-medium">Select Size:</span>
+            <div className="flex gap-2 flex-wrap">
+              {productData.sizes.map((s, idx) => (
                 <button
-                  onClick={() => setSize(item)}
-                  className={`border py-2 px-4 bg-gray-100  ${
-                    item === size ? "border-orange-500" : ""
+                  key={idx}
+                  onClick={() => setSize(s)}
+                  className={`border px-3 py-1.5 rounded-md text-sm transition-all ${
+                    s === size
+                      ? "border-orange-500 bg-orange-50 font-semibold"
+                      : "border-gray-300 bg-gray-100"
                   }`}
-                  key={index}
                 >
-                  {item}
+                  {s}
                 </button>
               ))}
             </div>
           </div>
+
+          {/* Add to Cart */}
           <button
             onClick={() => addToCart(productData._id, size)}
-            className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700 "
+            className="bg-black text-white py-2 text-sm rounded-md hover:bg-gray-800 transition-all w-1/3"
           >
             ADD TO CART
           </button>
-          <hr className="mt-8 sm:w-4/5" />
-          <div className="text-sm text-gray-500 flex flex-col gap-1">
+
+          {/* Product Info */}
+          <div className="mt-4 text-sm text-gray-500 flex flex-col gap-1">
             <p>100% Original Products</p>
             <p>Cash on delivery is available on this product.</p>
             <p>Easy return and exchange policy within 7 days.</p>
           </div>
         </div>
       </div>
-      {/* ----------------------Description & review section ---------------- */}
-      <div className=" mt-20">
-        <div className="flex">
-          <b className="border px-5 py-3 text-sm">Description</b>
-          <p className="border px-5 py-3 text-sm">Reviews (122)</p>
+
+      {/* Description & Reviews */}
+      <div className="mt-12">
+        <div className="flex border-b">
+          <span className="px-6 py-3 text-sm font-medium border-r cursor-pointer">
+            Description
+          </span>
+          <span className="px-6 py-3 text-sm cursor-pointer">
+            Reviews (122)
+          </span>
         </div>
-        <div className="flex flex-col gap-4 border px-6 py-6 text-gray-500">
+        <div className="border p-6 text-gray-600 flex flex-col gap-4">
           <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Recusandae
-            corrupti ut nulla est culpa earum quo mollitia obcaecati corporis,
-            laudantium vel sunt accusantium nostrum distinctio reprehenderit
-            aut. Laudantium a quisquam perspiciatis deserunt nihil, fugit modi,
-            elige ullam place quis accusantium dolore quasi? Aperiam quibusdam
-            nihil cum.
+            Experience unmatched quality with this product. Made from premium
+            materials, designed to provide comfort and durability. Perfect for
+            daily use or gifting purposes.
           </p>
           <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-            Consequatur, expedita non. Architecto, consectetur! Dolore illo,
-            amet suscipit libero maxime earum.
+            Customer satisfaction guaranteed. Easy returns, cash on delivery,
+            and responsive support make shopping worry-free.
           </p>
         </div>
       </div>
-      {/* ---------------Display related product------------ */}
-      <RelatedProducts
-        category={productData.category}
-        subCategory={productData.subCategory}
-      />
+
+      {/* Related Products */}
+      <div className="mt-12">
+        <RelatedProducts
+          category={productData.category}
+          subCategory={productData.subCategory}
+        />
+      </div>
     </div>
   ) : (
     <div className="opacity-0"></div>
