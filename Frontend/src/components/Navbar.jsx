@@ -23,6 +23,9 @@ const Navbar = () => {
     setCardItem({});
     setUserDropdown(false);
   };
+  // const Navbar = () => {
+  //   const navigate = useNavigate();
+  // };
 
   // Close dropdown when clicking outside
   useEffect(() => {
