@@ -1,10 +1,13 @@
 import jwt from "jsonwebtoken";
 
 const adminAuth = (req, res, next) => {
+  
+
+
   try {
     // 👇 same style as authUser
     const token = req.headers.token;
-
+    
     if (!token) {
       return res.status(401).json({
         success: false,

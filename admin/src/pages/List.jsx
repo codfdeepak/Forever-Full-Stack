@@ -1,11 +1,12 @@
 import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { backendUrl, currency } from "../App";
 import { toast } from "react-toastify";
 
-const List = ({ token }) => {
+const List = () => {
   const [list, setList] = useState([]);
+  const token = localStorage.getItem("token"); // ✅ DIRECT SOURCE
+
   const fetchList = async () => {
     try {
       const response = await axios.get(backendUrl + "/api/product/list");
@@ -20,19 +21,23 @@ const List = ({ token }) => {
   };
 
   const removeProduct = async (id) => {
+    if (!token) {
+      toast.error("Please login again");
+      return;
+    }
+
     try {
       const response = await axios.post(
         backendUrl + "/api/product/remove",
         { id },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { token }, // ✅ consistent
         }
       );
+
       if (response.data.success) {
         toast.success(response.data.message);
-        await fetchList();
+        fetchList();
       } else {
         toast.error(response.data.message);
       }
@@ -41,16 +46,17 @@ const List = ({ token }) => {
       toast.error(error.message);
     }
   };
+
   useEffect(() => {
     fetchList();
   }, []);
+
   return (
     <>
-      <p className=" mb-2">All Products Lists</p>
-      <div className="flex flex-col gap-2">
-        {/* List table Title */}
+      <p className="mb-2">All Products Lists</p>
 
-        <div className=" hidden md:grid grid-cols-[1fr_3fr_1fr_1fr_1fr] items-center py-1 px-2 border bg-gray-100 text-sm  ">
+      <div className="flex flex-col gap-2">
+        <div className="hidden md:grid grid-cols-[1fr_3fr_1fr_1fr_1fr] items-center py-1 px-2 border bg-gray-100 text-sm">
           <b>Image</b>
           <b>Name</b>
           <b>Category</b>
@@ -58,23 +64,20 @@ const List = ({ token }) => {
           <b className="text-center">Action</b>
         </div>
 
-        {/*-------------------------------- Product List -------------------------------- */}
-        {list.map((item, index) => (
+        {list.map((item) => (
           <div
-            className="grid grid-cols-[1fr_3fr_1fr_1fr_1fr] md:grid-cols-[1fr_3fr_1gr] items-center gap-2 py-1 px-2 border text-sm "
-            key={index}
+            key={item._id}
+            className="grid grid-cols-[1fr_3fr_1fr_1fr_1fr] items-center gap-2 py-1 px-2 border text-sm"
           >
-            <img className="w-12 " src={item.image[0]} alt="" />
+            <img className="w-12" src={item.image[0]} alt={item.name} />
             <p>{item.name}</p>
-            <p>{item.category} </p>
-
+            <p>{item.category}</p>
             <p>
               {currency}
               {item.price}
             </p>
             <p
               onClick={() => removeProduct(item._id)}
-              clas
               className="text-right md:text-center cursor-pointer text-lg"
             >
               X
